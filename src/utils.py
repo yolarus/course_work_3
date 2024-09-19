@@ -12,9 +12,13 @@ def list_of_vacancies(full_info_vacancies: list) -> list[Vacancy]:
     for item in full_info_vacancies:
         result.append(Vacancy(item["name"],
                               item["url"],
-                              f'{item["salary"]["from"] if item["salary"]["from"] else item["salary"]["to"]}'
-                              f' - {item["salary"]["to"] if item["salary"]["to"] else item["salary"]["from"]}'
-                              f' - {item["salary"]["currency"]}',
+                              {"from": int(item["salary"]["from"])
+                              if item["salary"]["from"]
+                              else item["salary"]["to"],
+                               "to": int(item["salary"]["to"])
+                               if item["salary"]["to"]
+                               else int(item["salary"]["from"]),
+                               "currency": item["salary"]["currency"]},
                               item["snippet"]["responsibility"],
                               item["snippet"]["requirement"],
                               item["area"]["name"]))

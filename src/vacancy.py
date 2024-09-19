@@ -5,12 +5,12 @@ class Vacancy:
     __slots__ = ("name", "url", "salary", "short_description", "requirements", "area")
     name: str
     url: str
-    salary: str
+    salary: dict
     short_description: str
     requirements: str
     area: str
 
-    def __init__(self, name: str, url: str, salary: str, short_description: str, requirements: str, area: str) -> None:
+    def __init__(self, name: str, url: str, salary: dict, short_description: str, requirements: str, area: str) -> None:
         """
         Конструктор объектов
         """
@@ -22,15 +22,18 @@ class Vacancy:
         self.__check_city(area)
 
     def __str__(self) -> str:
-        return (f"{self.name} -- {self.url} -- {self.salary}\n -- {self.short_description}\n"
-                f" -- {self.requirements}\n -- {self.area}\n")
+        return (f"{self.name} -- {self.url}\n"
+                f"Зарплата: от {self.salary['from']} до {self.salary['to']} {self.salary['currency']}\n"
+                f"Краткое описание: {self.short_description}\n"
+                f"Требования: {self.requirements}\n"
+                f"Место работы: {self.area}\n")
 
     def __eq__(self, other: "Vacancy") -> bool:   # type: ignore[override]
         """
         Метод для проверки зарплат вакансий - равно
         """
-        if (int(self.salary.split(" - ")[0]) == int(other.salary.split(" - ")[0])
-                and self.salary.split(" - ")[2] == other.salary.split(" - ")[2]):
+        if (self.salary["from"] == other.salary["from"]
+                and self.salary["currency"] == other.salary["currency"]):
             return True
         else:
             return False
@@ -39,8 +42,8 @@ class Vacancy:
         """
         Метод для проверки зарплат вакансий - меньше
         """
-        if (int(self.salary.split(" - ")[0]) < int(other.salary.split(" - ")[0])
-                and self.salary.split(" - ")[2] == other.salary.split(" - ")[2]):
+        if (self.salary["from"] < other.salary["from"]
+                and self.salary["currency"] == other.salary["currency"]):
             return True
         else:
             return False
@@ -49,8 +52,8 @@ class Vacancy:
         """
         Метод для проверки зарплат вакансий - меньше или равно
         """
-        if (int(self.salary.split(" - ")[0]) <= int(other.salary.split(" - ")[0])
-                and self.salary.split(" - ")[2] == other.salary.split(" - ")[2]):
+        if (int(self.salary["from"]) <= int(other.salary["from"])
+                and self.salary["currency"] == other.salary["currency"]):
             return True
         else:
             return False
