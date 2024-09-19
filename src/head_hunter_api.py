@@ -28,7 +28,7 @@ class HeadHunterAPI(BaseAPI):
         :return: Список ссылок на вакансии работадателей
         """
         if not query:
-            query = ["Сбер", "Яндекс"]
+            query = ["Сбер", "Яндекс", "Тинькофф", "Т-банк"]
 
         vacancies_urls_list = []
 
