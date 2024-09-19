@@ -20,27 +20,26 @@ class HeadHunterAPI(BaseAPI):
             self.__connection = False
         return self.__connection
 
-    def get_vacancies_urls(self, query: list, top_n: int = 5) -> list:
+    def get_employers(self, query: list, top_n: int = 5) -> list:
         """
-        Осуществляет поиск работаделей из списка запроса и возвращает список ссылок на вакансии найденных работадателей
-        :param query: Запрашиваемые список работадателей
+        Осуществляет поиск работаделей из списка запроса
+        :param query: Запрашиваемый список работадателей
         :param top_n: Максимальное число найденных работадателей по одному запросу
-        :return: Список ссылок на вакансии работадателей
+        :return: Список работадателей
         """
         if not query:
-            query = ["Сбер", "Яндекс", "Тинькофф", "Т-банк"]
+            query = ["Сбер", "Яндекс", "Т-банк"]
 
-        vacancies_urls_list = []
+        employers_list = []
 
         if self.get_status:
             for item in query:
                 url = f"https://api.hh.ru/employers?text={item}&only_with_vacancies={True}"
-                item_vacancies = requests.get(url).json()["items"]
-                item_vacancies_urls = [vacancy["vacancies_url"] for vacancy in item_vacancies]
-                vacancies_urls_list.extend(item_vacancies_urls[:top_n] if len(item_vacancies_urls) >= top_n
-                                           else item_vacancies_urls)
+                item_employers = requests.get(url).json()["items"]
+                employers_list.extend(item_employers[:top_n] if len(item_employers) >= top_n
+                                      else item_employers)
 
-        return vacancies_urls_list
+        return employers_list
 
     def get_vacancies_by_url(self, url: str) -> list:
         """

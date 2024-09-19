@@ -1,5 +1,5 @@
 from src.head_hunter_api import HeadHunterAPI
-from src.utils import list_of_vacancies, print_vacancies
+from src.utils import list_of_vacancies, list_of_employers, print_vacancies
 from src.save_to_postgreSQL import SaveToDBPostgreSQL
 
 
@@ -9,15 +9,26 @@ def user_interaction() -> None:
     """
 
     head_hunter_api = HeadHunterAPI()
-    vacancies_urls = head_hunter_api.get_vacancies_urls([])
+    employers_list = list_of_employers(head_hunter_api.get_employers([]))
 
-    vacancies_full_info_list = []
-    for vacancy_url in vacancies_urls:
-        vacancies_full_info_list.extend(head_hunter_api.get_vacancies_by_url(vacancy_url))
+    vacancies_full_info = []
+    for employer in employers_list:
+        vacancies_full_info.extend(head_hunter_api.get_vacancies_by_url(employer.url_to_vacancies_list))
 
-    vacancies = list_of_vacancies(vacancies_full_info_list)
+    vacancies_list = list_of_vacancies(vacancies_full_info)
 
-    result = print_vacancies(vacancies, 25)
+    print_vacancies(vacancies_list, 50)
+    # vacancies_urls = head_hunter_api.get_vacancies_urls([])
+    #
+    # vacancies_full_info_list = []
+    # for vacancy_url in vacancies_urls:
+    #     vacancies_full_info_list.extend(head_hunter_api.get_vacancies_by_url(vacancy_url))
+    #
+    # vacancies = list_of_vacancies(vacancies_full_info_list)
+
+    # result = print_vacancies(vacancies, 25)
+
+
     #
     # saver_json = SaveToJSONFile()
     # saver_json.clear_file()
@@ -27,8 +38,8 @@ def user_interaction() -> None:
 
 
 if __name__ == "__main__":
-    # user_interaction()
-    test = SaveToDBPostgreSQL()
-    test.create_db("alyautdinov_rt_cw_3")
-    test.create_table("test", ["id serial", "payment int"])
-    test.fill_table("test", [[1, 10000], [2, 20000]])
+    user_interaction()
+    # test = SaveToDBPostgreSQL()
+    # test.create_db("alyautdinov_rt_cw_3")
+    # test.create_table("test", ["id serial", "payment int"])
+    # test.fill_table("test", [[1, 10000], [2, 20000]])

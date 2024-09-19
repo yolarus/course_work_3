@@ -1,9 +1,10 @@
 from src.vacancy import Vacancy
+from src.employer import Employer
 
 
 def list_of_vacancies(full_info_vacancies: list) -> list[Vacancy]:
     """
-    Функция для преобразования список вакансий из hh.ru в список объектов Vacancy
+    Функция для преобразования списка вакансий из hh.ru в список объектов Vacancy
     :param full_info_vacancies: список вакансий из hh.ru с полной информацией
     :return: список вакансий преобразованных в класс Vacancy
     """
@@ -17,6 +18,21 @@ def list_of_vacancies(full_info_vacancies: list) -> list[Vacancy]:
                               item["snippet"]["responsibility"],
                               item["snippet"]["requirement"],
                               item["area"]["name"]))
+    return result
+
+
+def list_of_employers(full_info_employers: list) -> list[Employer]:
+    """
+    Функция для преобразования списка работадателей из hh.ru в список объектов Employer
+    :param full_info_employers: список работадателей из hh.ru с полной информацией
+    :return: список работадателей преобразованных в класс Employer
+    """
+    result = []
+    for item in full_info_employers:
+        result.append(Employer(item["name"],
+                               item["url"],
+                               item["vacancies_url"],
+                               item["open_vacancies"]))
     return result
 
 
