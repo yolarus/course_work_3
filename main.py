@@ -1,7 +1,8 @@
+from src.db_manager import DBManager
 from src.employer import Employer
 from src.head_hunter_api import HeadHunterAPI
 from src.save_to_postgreSQL import SaveToDBPostgreSQL
-from src.utils import list_of_employers, list_of_vacancies, print_vacancies
+from src.utils import list_of_employers, list_of_vacancies
 from src.vacancy import Vacancy
 
 
@@ -31,6 +32,13 @@ def user_interaction() -> None:
     save_to_postgres.fill_table("vacancies", [vacancy.get_insert_data_to_db() for vacancy in vacancies_list])
     save_to_postgres.add_pk_to_table("vacancies", "vacancy_id")
     save_to_postgres.add_fk_to_table("vacancies", "employer_id", "employers", "employer_id")
+
+    db_manager = DBManager()
+    print(db_manager.get_companies_and_vacancies_count())
+    print(db_manager.get_all_vacancies())
+    print(db_manager.get_avg_salary())
+    print(db_manager.get_vacancies_with_higher_salary())
+    print(db_manager.get_vacancies_with_keyword("Менеджер"))
 
 
 if __name__ == "__main__":

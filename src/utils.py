@@ -1,7 +1,7 @@
+from typing import Optional
+
 from src.employer import Employer
 from src.vacancy import Vacancy
-
-from typing import Optional
 
 
 def list_of_vacancies(full_info_vacancies: list, employer_id: Optional[int] = None) -> list[Vacancy]:
@@ -42,7 +42,7 @@ def list_of_employers(full_info_employers: list) -> list[Employer]:
         result.append(Employer(item["name"],
                                item["url"],
                                item["vacancies_url"],
-                               item["open_vacancies"]))
+                               item["open_vacancies"] if item["open_vacancies"] <= 20 else 20))
     return result
 
 

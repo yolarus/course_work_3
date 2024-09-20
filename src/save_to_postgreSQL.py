@@ -10,6 +10,9 @@ password_to_postgres = os.getenv("PASSWORD_TO_POSTGRES")
 
 
 class SaveToDBPostgreSQL:
+    """
+    Класс для создания и заполнения новой базы данных
+    """
 
     @staticmethod
     def create_db(db_name: str) -> None:
@@ -54,8 +57,6 @@ class SaveToDBPostgreSQL:
                     cur.execute(f"CREATE TABLE {table_name}({', '.join(headers)});")
         except (Exception, Error) as error:
             print("Ошибка при работе с PostgreSQL:", error)
-        finally:
-            conn.close()
 
     @staticmethod
     def fill_table(table_name: str, values: list[list]) -> None:
@@ -78,8 +79,6 @@ class SaveToDBPostgreSQL:
                         cur.execute(f"INSERT INTO {table_name} VALUES({', '.join(['%s']*len(value))});", value)
         except (Exception, Error) as error:
             print("Ошибка при работе с PostgreSQL:", error)
-        finally:
-            conn.close()
 
     @staticmethod
     def add_pk_to_table(table_name: str, column_name: str) -> None:
@@ -102,8 +101,6 @@ class SaveToDBPostgreSQL:
                                 f"ADD CONSTRAINT pk_{table_name}_{column_name} PRIMARY KEY ({column_name});")
         except (Exception, Error) as error:
             print("Ошибка при работе с PostgreSQL:", error)
-        finally:
-            conn.close()
 
     @staticmethod
     def add_fk_to_table(table_name: str, column_name: str, ref_table_name: str, ref_column_name: str) -> None:
@@ -129,5 +126,3 @@ class SaveToDBPostgreSQL:
                                 f"FOREIGN KEY ({column_name}) REFERENCES {ref_table_name}({ref_column_name});")
         except (Exception, Error) as error:
             print("Ошибка при работе с PostgreSQL:", error)
-        finally:
-            conn.close()
