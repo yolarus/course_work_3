@@ -80,3 +80,36 @@ class Vacancy:
         """
         return {"name": self.name, "url": self.url, "salary": self.salary, "short_description": self.short_description,
                 "requirements": self.requirements, "area": self.area}
+
+    @staticmethod
+    def get_headers_to_db() -> list:
+        """
+        Получение заголовков столбцов для загрузки данных в БД
+        :return: Список строк с именами и типами данных заголовков на языке SQL
+        """
+        return ["vacancy_id int",
+                "employer_id int",
+                "name varchar(255)",
+                "url varchar(255)",
+                "salary_from int",
+                "salary_to int",
+                "salary_currency varchar(3)",
+                "short_description text",
+                "requirements text",
+                "area varchar(255)"]
+
+    def get_insert_data_to_db(self) -> list:
+        """
+        Получение данных для заполнения таблиц в БД
+        :return: Список атрибутов экземпляра
+        """
+        return [self.vacancy_id,
+                self.employer_id,
+                self.name,
+                self.url,
+                self.salary["from"],
+                self.salary["to"],
+                self.salary["currency"],
+                self.short_description,
+                self.requirements,
+                self.area]

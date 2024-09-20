@@ -49,7 +49,7 @@ class SaveToDBPostgreSQL:
         try:
             with conn:
                 with conn.cursor() as cur:
-                    cur.execute(f"DROP TABLE IF EXISTS {table_name};")
+                    cur.execute(f"DROP TABLE IF EXISTS {table_name}")
                     cur.execute(f"CREATE TABLE {table_name}({', '.join(headers)});")
         except (Exception, Error) as error:
             print("Ошибка при работе с PostgreSQL:", error)
@@ -73,7 +73,8 @@ class SaveToDBPostgreSQL:
         try:
             with conn:
                 with conn.cursor() as cur:
-                    cur.executemany(f"INSERT INTO {table_name} VALUES({', '.join(['%s']*len(values))});", values)
+                    for value in values:
+                        cur.execute(f"INSERT INTO {table_name} VALUES({', '.join(['%s']*len(value))});", value)
         except (Exception, Error) as error:
             print("Ошибка при работе с PostgreSQL:", error)
         finally:
