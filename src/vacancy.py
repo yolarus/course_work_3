@@ -2,7 +2,10 @@ class Vacancy:
     """
     Класс для работы с вакансиями
     """
-    __slots__ = ("name", "url", "salary", "short_description", "requirements", "area")
+    __slots__ = ("vacancy_id", "employer_id", "name", "url", "salary", "short_description", "requirements", "area")
+    ID: int = 0
+    vacancy_id: int
+    employer_id: int
     name: str
     url: str
     salary: dict
@@ -14,6 +17,8 @@ class Vacancy:
         """
         Конструктор объектов
         """
+        Vacancy.ID += 1
+        self.vacancy_id = Vacancy.ID
         self.name = name
         self.url = url
         self.salary = salary
@@ -22,7 +27,7 @@ class Vacancy:
         self.__check_city(area)
 
     def __str__(self) -> str:
-        return (f"{self.name} -- {self.url}\n"
+        return (f"ID: {self.vacancy_id} -- ID работодателя: {self.employer_id} -- {self.name} -- {self.url}\n"
                 f"Зарплата: от {self.salary['from']} до {self.salary['to']} {self.salary['currency']}\n"
                 f"Краткое описание: {self.short_description}\n"
                 f"Требования: {self.requirements}\n"

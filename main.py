@@ -9,13 +9,14 @@ def user_interaction() -> None:
     """
 
     head_hunter_api = HeadHunterAPI()
-    employers_list = list_of_employers(head_hunter_api.get_employers([]))
+    employers_list = list_of_employers(head_hunter_api.get_employers(["Яндекс"]))
 
-    vacancies_full_info = []
+    vacancies_list = []
     for employer in employers_list:
-        vacancies_full_info.extend(head_hunter_api.get_vacancies_by_url(employer.url_to_vacancies_list))
-
-    vacancies_list = list_of_vacancies(vacancies_full_info)
+        employer_vacancies = list_of_vacancies(
+            head_hunter_api.get_vacancies_by_url(employer.url_to_vacancies_list),
+            employer.employer_id)
+        vacancies_list.extend(employer_vacancies)
 
     print_vacancies(vacancies_list, 50)
     # vacancies_urls = head_hunter_api.get_vacancies_urls([])

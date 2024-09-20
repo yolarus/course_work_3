@@ -2,15 +2,16 @@ from src.vacancy import Vacancy
 from src.employer import Employer
 
 
-def list_of_vacancies(full_info_vacancies: list) -> list[Vacancy]:
+def list_of_vacancies(full_info_vacancies: list, employer_id: int = None) -> list[Vacancy]:
     """
     Функция для преобразования списка вакансий из hh.ru в список объектов Vacancy
     :param full_info_vacancies: список вакансий из hh.ru с полной информацией
+    :param employer_id: опциональный параметр для присвоения локального id работодателя
     :return: список вакансий преобразованных в класс Vacancy
     """
     result = []
     for item in full_info_vacancies:
-        result.append(Vacancy(item["name"],
+        new_vacancy = Vacancy(item["name"],
                               item["url"],
                               {"from": int(item["salary"]["from"])
                               if item["salary"]["from"]
@@ -21,7 +22,9 @@ def list_of_vacancies(full_info_vacancies: list) -> list[Vacancy]:
                                "currency": item["salary"]["currency"]},
                               item["snippet"]["responsibility"],
                               item["snippet"]["requirement"],
-                              item["area"]["name"]))
+                              item["area"]["name"])
+        new_vacancy.employer_id = employer_id
+        result.append(new_vacancy)
     return result
 
 
