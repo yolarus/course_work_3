@@ -47,10 +47,9 @@ class HeadHunterAPI(BaseAPI):
         :param url: ссылка на список вакансий
         :return: список подходящих вакансий
         """
+        vacancies_list = []
         if self.get_status:
             vacancies_list = requests.get(f"{url}&only_with_salary={True}").json()["items"]
-        else:
-            vacancies_list = []
         return vacancies_list
 
     def get_vacancies_by_query(self, query: str, per_page: int = 100) -> list:
@@ -60,9 +59,8 @@ class HeadHunterAPI(BaseAPI):
         :param per_page: максимальное количество вакансий
         :return: список подходящих вакансий
         """
+        vacancies_list = []
         if self.get_status:
             url = f"https://api.hh.ru/vacancies?text={query}&per_page={per_page}&only_with_salary={True}"
             vacancies_list = requests.get(url).json()["items"]
-        else:
-            vacancies_list = []
         return vacancies_list

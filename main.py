@@ -1,7 +1,7 @@
-from src.head_hunter_api import HeadHunterAPI
-from src.utils import list_of_vacancies, list_of_employers, print_vacancies
-from src.save_to_postgreSQL import SaveToDBPostgreSQL
 from src.employer import Employer
+from src.head_hunter_api import HeadHunterAPI
+from src.save_to_postgreSQL import SaveToDBPostgreSQL
+from src.utils import list_of_employers, list_of_vacancies, print_vacancies
 from src.vacancy import Vacancy
 
 

@@ -1,8 +1,10 @@
-from src.vacancy import Vacancy
 from src.employer import Employer
+from src.vacancy import Vacancy
+
+from typing import Optional
 
 
-def list_of_vacancies(full_info_vacancies: list, employer_id: int = None) -> list[Vacancy]:
+def list_of_vacancies(full_info_vacancies: list, employer_id: Optional[int] = None) -> list[Vacancy]:
     """
     Функция для преобразования списка вакансий из hh.ru в список объектов Vacancy
     :param full_info_vacancies: список вакансий из hh.ru с полной информацией
@@ -23,7 +25,8 @@ def list_of_vacancies(full_info_vacancies: list, employer_id: int = None) -> lis
                               item["snippet"]["responsibility"],
                               item["snippet"]["requirement"],
                               item["area"]["name"])
-        new_vacancy.employer_id = employer_id
+        if employer_id:
+            new_vacancy.employer_id = employer_id
         result.append(new_vacancy)
     return result
 

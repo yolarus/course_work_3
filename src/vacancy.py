@@ -13,7 +13,8 @@ class Vacancy:
     requirements: str
     area: str
 
-    def __init__(self, name: str, url: str, salary: dict, short_description: str, requirements: str, area: str) -> None:
+    def __init__(self, name: str, url: str, salary: dict,
+                 short_description: str, requirements: str, area: str) -> None:
         """
         Конструктор объектов
         """
