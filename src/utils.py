@@ -1,6 +1,7 @@
 from typing import Optional
 
 from src.employer import Employer
+from src.save_to_json_file import SaveToJSONFile
 from src.vacancy import Vacancy
 
 
@@ -46,27 +47,16 @@ def list_of_employers(full_info_employers: list) -> list[Employer]:
     return result
 
 
-def print_vacancies(vacancies: list[Vacancy], top_n: int) -> list[Vacancy]:
+def use_to_list_json_saver(items: list, file_name: str) -> None:
     """
-    Функция для вывода в консоль списка объектов класса Vacancy
-    :param vacancies: список объектов класса Vacancy
-    :param top_n: Максимальное количество вакансий для печати и возврата
-    :return: Возращается список объектов класса Vacancy
+    Функция для быстрого сохранения через класс SaveToJSONFile списка объектов
+    :param items: Список объектов для сохранения
+    :param file_name: Имя файла для сохранения данных
+    :return: None
     """
-    flag = 0
-    result = []
-    for item in vacancies:
-        flag += 1
-        result.append(item)
-        print(item)
 
-        if flag == top_n:
-            print("Вывод окончен")
-            break
-    else:
-        print("Вывод окончен")
-        if flag == 0:
-            print("По вашему запросу не нашлось ни одной вакансии")
-        elif flag < top_n:
-            print(f"Под ваш запрос подходит лишь {flag} вакансий")
-    return result
+    item_json_saver = SaveToJSONFile(file_name)
+    item_json_saver.clear_file()
+    for item in items:
+        item_json_saver.add_to_file(item)
+    print(f"Данные выгружены в файл: data/{file_name}.json")

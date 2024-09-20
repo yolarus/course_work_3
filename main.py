@@ -1,9 +1,8 @@
 from src.db_manager import DBManager
 from src.employer import Employer
 from src.head_hunter_api import HeadHunterAPI
-from src.save_to_json_file import SaveToJSONFile
 from src.save_to_postgreSQL import SaveToDBPostgreSQL
-from src.utils import list_of_employers, list_of_vacancies
+from src.utils import list_of_employers, list_of_vacancies, use_to_list_json_saver
 from src.vacancy import Vacancy
 
 
@@ -14,11 +13,11 @@ def user_interaction() -> None:
 
     # Получение данных для запроса от пользователя
 
-    print("Добро пожаловать в программу для поиска ваканси от любимых компаний! ")
-    search_query = input("Если вы не знаете какие компании выбрать нажмите ENTER и "
+    print("Добро пожаловать в программу для поиска вакансий от приоритетных компаний! ")
+    search_query = input("Если вы не знаете какие компании выбрать - нажмите ENTER, и "
                          "поиск будет осуществляться среди самых популярных.\n"
                          "Если знаете - введите названия компаний через пробел: ")  # Яндекс
-    top_n = int(input("Введите максимальное количество компаний (до 100) подходящих под каждый запрос: "))  # 2
+    top_n = int(input("Введите максимальное количество компаний (до 100), подходящих под каждый запрос: "))  # 2
 
     if search_query:
         query = search_query.split()
@@ -38,18 +37,10 @@ def user_interaction() -> None:
         vacancies_list.extend(employer_vacancies)
 
     # Сохранение найденных компаний в json файл
-    employer_json_saver = SaveToJSONFile("employers")
-    employer_json_saver.clear_file()
-    for employer in employers_list:
-        employer_json_saver.add_to_file(employer)
-    print("Работодатели выгружены в файл: data/employers.json")
+    use_to_list_json_saver(employers_list, "employers")
 
     # Сохранение найденных вакансий в json файл
-    vacancies_json_saver = SaveToJSONFile("vacancies")
-    vacancies_json_saver.clear_file()
-    for vacancy in vacancies_list:
-        vacancies_json_saver.add_to_file(vacancy)
-    print("Вакансии выгружены в файл: data/vacancies.json")
+    use_to_list_json_saver(vacancies_list, "vacancies")
 
     # Создание БД
     save_to_postgres = SaveToDBPostgreSQL()
