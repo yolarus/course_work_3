@@ -27,8 +27,6 @@ class HeadHunterAPI(BaseAPI):
         :param top_n: Максимальное число найденных работадателей по одному запросу
         :return: Список работадателей
         """
-        if not query:
-            query = ["Сбер", "Яндекс", "Т-банк"]
 
         employers_list = []
 
