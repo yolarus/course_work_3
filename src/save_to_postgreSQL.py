@@ -80,3 +80,53 @@ class SaveToDBPostgreSQL:
         finally:
             conn.close()
 
+    @staticmethod
+    def add_pk_to_table(table_name: str, column_name: str) -> None:
+        """
+        Добавление PRIMARY KEY в таблицу
+        :param table_name: Имя таблицы для добавления PRIMARY KEY
+        :param column_name: Имя столбца, выступающий PRIMARY KEY
+        :return: None
+        """
+
+        conn = psycopg2.connect(host="localhost",
+                                port="5432",
+                                user="postgres",
+                                password=password_to_postgres,
+                                dbname="alyautdinov_rt_cw_3")
+        try:
+            with conn:
+                with conn.cursor() as cur:
+                    cur.execute(f"ALTER TABLE {table_name} "
+                                f"ADD CONSTRAINT pk_{table_name}_{column_name} PRIMARY KEY ({column_name});")
+        except (Exception, Error) as error:
+            print("Ошибка при работе с PostgreSQL:", error)
+        finally:
+            conn.close()
+
+    @staticmethod
+    def add_fk_to_table(table_name: str, column_name: str, ref_table_name: str, ref_column_name: str) -> None:
+        """
+        Добавление FOREIGN KEY в таблицу
+        :param table_name: Имя таблицы для добавления FOREIGN KEY
+        :param column_name: Имя столбца, выступающий FOREIGN KEY
+        :param ref_table_name: Имя таблицы, на которую будет ссылаться FOREIGN KEY
+        :param ref_column_name: Имя столбца, на который будет ссылаться FOREIGN KEY
+        :return: None
+        """
+
+        conn = psycopg2.connect(host="localhost",
+                                port="5432",
+                                user="postgres",
+                                password=password_to_postgres,
+                                dbname="alyautdinov_rt_cw_3")
+        try:
+            with conn:
+                with conn.cursor() as cur:
+                    cur.execute(f"ALTER TABLE {table_name} "
+                                f"ADD CONSTRAINT fk_{table_name}_{ref_table_name}_{column_name} "
+                                f"FOREIGN KEY ({column_name}) REFERENCES {ref_table_name}({ref_column_name});")
+        except (Exception, Error) as error:
+            print("Ошибка при работе с PostgreSQL:", error)
+        finally:
+            conn.close()

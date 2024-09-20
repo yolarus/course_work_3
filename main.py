@@ -22,10 +22,15 @@ def user_interaction() -> None:
 
     save_to_postgres = SaveToDBPostgreSQL()
     save_to_postgres.create_db("alyautdinov_rt_cw_3")
+
     save_to_postgres.create_table("employers", Employer.get_headers_to_db())
     save_to_postgres.fill_table("employers", [employer.get_insert_data_to_db() for employer in employers_list])
+    save_to_postgres.add_pk_to_table("employers", "employer_id")
+
     save_to_postgres.create_table("vacancies", Vacancy.get_headers_to_db())
     save_to_postgres.fill_table("vacancies", [vacancy.get_insert_data_to_db() for vacancy in vacancies_list])
+    save_to_postgres.add_pk_to_table("vacancies", "vacancy_id")
+    save_to_postgres.add_fk_to_table("vacancies", "employer_id", "employers", "employer_id")
 
 
 if __name__ == "__main__":
