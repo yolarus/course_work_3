@@ -34,9 +34,9 @@ def list_of_vacancies(full_info_vacancies: list, employer_id: Optional[int] = No
 
 def list_of_employers(full_info_employers: list) -> list[Employer]:
     """
-    Функция для преобразования списка работадателей из hh.ru в список объектов Employer
-    :param full_info_employers: список работадателей из hh.ru с полной информацией
-    :return: список работадателей преобразованных в класс Employer
+    Функция для преобразования списка работодателей из hh.ru в список объектов Employer
+    :param full_info_employers: список работодателей из hh.ru с полной информацией
+    :return: список работодателей преобразованных в класс Employer
     """
     result = []
     for item in full_info_employers:
