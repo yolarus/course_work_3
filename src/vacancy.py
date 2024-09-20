@@ -79,7 +79,8 @@ class Vacancy:
         """
         Конвертация объекта класса Vacancy в словарь
         """
-        return {"name": self.name, "url": self.url, "salary": self.salary, "short_description": self.short_description,
+        return {"vacancy_id": self.vacancy_id, "employer_id": self.employer_id, "name": self.name,
+                "url": self.url, "salary": self.salary, "short_description": self.short_description,
                 "requirements": self.requirements, "area": self.area}
 
     @staticmethod

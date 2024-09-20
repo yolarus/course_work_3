@@ -1,6 +1,7 @@
 from src.db_manager import DBManager
 from src.employer import Employer
 from src.head_hunter_api import HeadHunterAPI
+from src.save_to_json_file import SaveToJSONFile
 from src.save_to_postgreSQL import SaveToDBPostgreSQL
 from src.utils import list_of_employers, list_of_vacancies
 from src.vacancy import Vacancy
@@ -20,6 +21,18 @@ def user_interaction() -> None:
             head_hunter_api.get_vacancies_by_url(employer.url_to_vacancies_list),
             employer.employer_id)
         vacancies_list.extend(employer_vacancies)
+
+    vacancies_json_saver = SaveToJSONFile("vacancies")
+    vacancies_json_saver.clear_file()
+    for vacancy in vacancies_list:
+        vacancies_json_saver.add_to_file(vacancy)
+    print("Вакансии выгружены в файл: data/vacancies.json")
+
+    employer_json_saver = SaveToJSONFile("employers")
+    employer_json_saver.clear_file()
+    for employer in employers_list:
+        employer_json_saver.add_to_file(employer)
+    print("Работодатели выгружены в файл: data/employers.json")
 
     save_to_postgres = SaveToDBPostgreSQL()
     save_to_postgres.create_db("alyautdinov_rt_cw_3")

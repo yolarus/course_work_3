@@ -48,3 +48,13 @@ class Employer:
                 self.url,
                 self.url_to_vacancies_list,
                 self.open_vacancies]
+
+    def to_dict(self) -> dict:
+        """
+        Конвертация объекта класса Employer в словарь
+        """
+        return {"employer_id": self.employer_id,
+                "name": self.name,
+                "url": self.url,
+                "url_to_vacancies_list": self.url_to_vacancies_list,
+                "open_vacancies": self.open_vacancies}
