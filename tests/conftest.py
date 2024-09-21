@@ -58,7 +58,9 @@ def first_vacancy_dict() -> dict:
     """
     Фикстура - объект 1 класса Vacancy, преобразованный в словарь
     """
-    return {"name": "Test",
+    return {"vacancy_id": 1,
+            "employer_id": None,
+            "name": "Test",
             "url": "don't have",
             "salary": {"from": 50000, "to": 100000, "currency": "RUR"},
             "short_description": "description",
@@ -71,7 +73,9 @@ def second_vacancy_dict() -> dict:
     """
     Фикстура - объект 2 класса Vacancy, преобразованный в словарь
     """
-    return {"name": "Test 2",
+    return {"vacancy_id": 2,
+            "employer_id": None,
+            "name": "Test 2",
             "url": "don't have",
             "salary": {"from": 150000, "to": 200000, "currency": "RUR"},
             "short_description": "description",
@@ -111,3 +115,47 @@ def saver_json() -> SaveToJSONFile:
     Фикстура - объект класса SaveToJSONFile
     """
     return SaveToJSONFile("test_data/test")
+
+
+@pytest.fixture
+def reset_vacancies_and_employers_id() -> None:
+    """
+    Фикстура - обнуление id вакансий и компаний в классах Vacancy и Employer
+    :return: None
+    """
+    Vacancy.ID = 0
+    Employer.ID = 0
+
+
+@pytest.fixture
+def headers_vacancies() -> list:
+    """
+    Фикстура - список заголовков таблицы vacancies в БД
+    """
+    return ["vacancy_id int",
+            "employer_id int",
+            "name varchar(255)",
+            "url varchar(255)",
+            "salary_from int",
+            "salary_to int",
+            "salary_currency varchar(3)",
+            "short_description text",
+            "requirements text",
+            "area varchar(255)"]
+
+
+@pytest.fixture
+def insert_data_first_vacancy() -> list:
+    """
+    Фикстура - выгрузка данных объекта 1 класса Vacancy
+    """
+    return [1,
+            None,
+            "Test",
+            "don't have",
+            50000,
+            100000,
+            "RUR",
+            "description",
+            "requirements",
+            "Москва"]

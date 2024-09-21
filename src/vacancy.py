@@ -1,3 +1,6 @@
+from typing import Optional
+
+
 class Vacancy:
     """
     Класс для работы с вакансиями
@@ -14,7 +17,7 @@ class Vacancy:
     area: str
 
     def __init__(self, name: str, url: str, salary: dict,
-                 short_description: str, requirements: str, area: str) -> None:
+                 short_description: str, requirements: str, area: str, employer_id: Optional[int] = None) -> None:
         """
         Конструктор объектов
         """
@@ -26,6 +29,7 @@ class Vacancy:
         self.short_description = short_description
         self.requirements = requirements
         self.__check_city(area)
+        self.employer_id = employer_id
 
     def __str__(self) -> str:
         return (f"ID: {self.vacancy_id} -- ID работодателя: {self.employer_id} -- {self.name} -- {self.url}\n"
