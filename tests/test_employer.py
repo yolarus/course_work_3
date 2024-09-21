@@ -11,8 +11,7 @@ def test_employer_str(first_employer: Employer) -> None:
                                    "Всего открытых вакансий: 1\n")
 
 
-def test_employer_to_dict(reset_vacancies_and_employers_id: Any,
-                          first_employer: Employer,
+def test_employer_to_dict(first_employer: Employer,
                           first_employer_dict: dict) -> None:
     """
     Тест преобразования в словарь для класса Vacancy
@@ -28,7 +27,7 @@ def test_employer_get_headers_to_db(first_employer: Employer,
     assert first_employer.get_headers_to_db() == headers_employers
 
 
-def test_employer_get_insert_data_to_db(reset_vacancies_and_employers_id: Any, first_employer: Employer,
+def test_employer_get_insert_data_to_db(first_employer: Employer,
                                         insert_data_first_employer: list) -> None:
     """
     Тест получения данных для заполнения таблиц в БД

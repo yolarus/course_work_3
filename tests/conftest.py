@@ -10,10 +10,25 @@ def first_employer() -> Employer:
     """
     Фикстура - объект 1 класса Employer
     """
-    return Employer("Test",
-                    "don't have",
-                    "url_to_vacancies_list",
-                    1)
+    result = Employer("Test",
+                      "don't have",
+                      "url_to_vacancies_list",
+                      1)
+    result.employer_id = 1
+    return result
+
+
+@pytest.fixture
+def second_employer() -> Employer:
+    """
+    Фикстура - объект 2 класса Employer
+    """
+    result = Employer("Test",
+                      "don't have",
+                      "url_to_vacancies_list",
+                      20)
+    result.employer_id = 2
+    return result
 
 
 @pytest.fixture
@@ -29,16 +44,52 @@ def first_employer_dict() -> dict:
 
 
 @pytest.fixture
+def second_employer_dict() -> dict:
+    """
+    Фикстура - объект 2 класса Employer, преобразованный в словарь
+    """
+    return {"employer_id": 2,
+            "name": "Test",
+            "url": "don't have",
+            "url_to_vacancies_list": "url_to_vacancies_list",
+            "open_vacancies": 20}
+
+
+@pytest.fixture
+def full_info_first_employer() -> dict:
+    """
+    Фикстура - работодатель 1, полученный с hh.ru в исходном формате
+    """
+    return {"name": "Test",
+            "url": "don't have",
+            "vacancies_url": "url_to_vacancies_list",
+            "open_vacancies": 1}
+
+
+@pytest.fixture
+def full_info_second_employer() -> dict:
+    """
+    Фикстура - работодатель 2, полученный с hh.ru в исходном формате
+    """
+    return {"name": "Test",
+            "url": "don't have",
+            "vacancies_url": "url_to_vacancies_list",
+            "open_vacancies": 25}
+
+
+@pytest.fixture
 def first_vacancy() -> Vacancy:
     """
     Фикстура - объект 1 класса Vacancy
     """
-    return Vacancy("Test",
-                   "don't have",
-                   {"from": 50000, "to": 100000, "currency": "RUR"},
-                   "description",
-                   "requirements",
-                   "Москва")
+    result = Vacancy("Test",
+                     "don't have",
+                     {"from": 50000, "to": 100000, "currency": "RUR"},
+                     "description",
+                     "requirements",
+                     "Москва")
+    result.vacancy_id = 1
+    return result
 
 
 @pytest.fixture
@@ -46,12 +97,14 @@ def second_vacancy() -> Vacancy:
     """
     Фикстура - объект 2 класса Vacancy
     """
-    return Vacancy("Test 2",
-                   "don't have",
-                   {"from": 150000, "to": 200000, "currency": "RUR"},
-                   "description",
-                   "requirements",
-                   "Токио")
+    result = Vacancy("Test 2",
+                     "don't have",
+                     {"from": 150000, "to": 200000, "currency": "RUR"},
+                     "description",
+                     "requirements",
+                     "Можно не рассматривать данную вакансию")
+    result.vacancy_id = 2
+    return result
 
 
 @pytest.fixture
@@ -85,9 +138,9 @@ def second_vacancy_dict() -> dict:
 
 
 @pytest.fixture
-def full_info_first_vacancy_dict() -> dict:
+def full_info_first_vacancy() -> dict:
     """
-    Фикстура - объект 1 класса Vacancy, преобразованный в словарь
+    Фикстура - вакансия 1, полученная с hh.ru в исходном формате
     """
     return {"name": "Test",
             "url": "don't have",
@@ -98,26 +151,16 @@ def full_info_first_vacancy_dict() -> dict:
 
 
 @pytest.fixture
-def full_info_second_vacancy_dict() -> dict:
+def full_info_second_vacancy() -> dict:
     """
-    Фикстура - объект 2 класса Vacancy, преобразованный в словарь
+    Фикстура - вакансия 2, полученная с hh.ru в исходном формате
     """
     return {"name": "Test 2",
             "url": "don't have",
             "salary": {"from": 150000, "to": 200000, "currency": "RUR"},
             "snippet": {"responsibility": "description",
                         "requirement": "requirements"},
-            "area": {"name": "Москва"}}
-
-
-@pytest.fixture
-def reset_vacancies_and_employers_id() -> None:
-    """
-    Фикстура - обнуление id вакансий и компаний в классах Vacancy и Employer
-    :return: None
-    """
-    Vacancy.ID = 0
-    Employer.ID = 0
+            "area": {"name": "Токио"}}
 
 
 @pytest.fixture
@@ -184,3 +227,13 @@ def saver_json() -> SaveToJSONFile:
     Фикстура - объект класса SaveToJSONFile
     """
     return SaveToJSONFile("test_data/test")
+
+
+@pytest.fixture
+def reset_vacancies_and_employers_id() -> None:
+    """
+    Фикстура - обнуление ID классов Vacancy и Employer
+    :return: None
+    """
+    Vacancy.ID = 0
+    Employer.ID = 0

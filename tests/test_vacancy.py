@@ -2,7 +2,7 @@ from src.vacancy import Vacancy
 from typing import Any
 
 
-def test_vacancy_str(reset_vacancies_and_employers_id: Any, first_vacancy: Vacancy) -> None:
+def test_vacancy_str(first_vacancy: Vacancy) -> None:
     """
     Тест пользовательского отображения для класса Vacancy
     """
@@ -40,8 +40,7 @@ def test_vacancy__check_city(first_vacancy: Vacancy, second_vacancy: Vacancy) ->
     assert second_vacancy.area == "Можно не рассматривать данную вакансию"
 
 
-def test_vacancy_to_dict(reset_vacancies_and_employers_id: Any,
-                         first_vacancy: Vacancy,
+def test_vacancy_to_dict(first_vacancy: Vacancy,
                          first_vacancy_dict: dict) -> None:
     """
     Тест преобразования в словарь для класса Vacancy
@@ -49,8 +48,7 @@ def test_vacancy_to_dict(reset_vacancies_and_employers_id: Any,
     assert first_vacancy.to_dict() == first_vacancy_dict
 
 
-def test_vacancy_get_headers_to_db(reset_vacancies_and_employers_id: Any,
-                                   first_vacancy: Vacancy,
+def test_vacancy_get_headers_to_db(first_vacancy: Vacancy,
                                    headers_vacancies: list) -> None:
     """
     Тест получения списка заголовков столбцов для загрузки данных в БД
@@ -59,8 +57,7 @@ def test_vacancy_get_headers_to_db(reset_vacancies_and_employers_id: Any,
     assert first_vacancy.get_headers_to_db() == headers_vacancies
 
 
-def test_vacancy_get_insert_data_to_db(reset_vacancies_and_employers_id: Any,
-                                       first_vacancy: Vacancy,
+def test_vacancy_get_insert_data_to_db(first_vacancy: Vacancy,
                                        insert_data_first_vacancy: list) -> None:
     """
     Тест получения данных для заполнения таблиц в БД

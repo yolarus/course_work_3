@@ -2,11 +2,9 @@ import json
 
 from src.save_to_json_file import SaveToJSONFile
 from src.vacancy import Vacancy
-from typing import Any
 
 
-def test_save_to_json_save_to_file(reset_vacancies_and_employers_id: Any,
-                                   saver_json: SaveToJSONFile,
+def test_save_to_json_save_to_file(saver_json: SaveToJSONFile,
                                    first_vacancy: Vacancy,
                                    first_vacancy_dict: dict) -> None:
     """
@@ -19,7 +17,8 @@ def test_save_to_json_save_to_file(reset_vacancies_and_employers_id: Any,
     assert data == [first_vacancy_dict]
 
 
-def test_save_to_json_read_from_file(saver_json: SaveToJSONFile, first_vacancy_dict: dict) -> None:
+def test_save_to_json_read_from_file(saver_json: SaveToJSONFile,
+                                     first_vacancy_dict: dict) -> None:
     """
     Тест чтения из файла .json
     """
@@ -29,8 +28,7 @@ def test_save_to_json_read_from_file(saver_json: SaveToJSONFile, first_vacancy_d
     assert data == [first_vacancy_dict]
 
 
-def test_save_to_json_add_to_file(reset_vacancies_and_employers_id: Any,
-                                  saver_json: SaveToJSONFile,
+def test_save_to_json_add_to_file(saver_json: SaveToJSONFile,
                                   first_vacancy: Vacancy,
                                   second_vacancy: Vacancy,
                                   first_vacancy_dict: dict,
@@ -44,8 +42,7 @@ def test_save_to_json_add_to_file(reset_vacancies_and_employers_id: Any,
     assert data == [first_vacancy_dict, second_vacancy_dict]
 
 
-def test_save_to_json_add_to_file_dupl(reset_vacancies_and_employers_id: Any,
-                                       saver_json: SaveToJSONFile,
+def test_save_to_json_add_to_file_dupl(saver_json: SaveToJSONFile,
                                        first_vacancy: Vacancy,
                                        second_vacancy: Vacancy,
                                        first_vacancy_dict: dict,
@@ -59,8 +56,7 @@ def test_save_to_json_add_to_file_dupl(reset_vacancies_and_employers_id: Any,
     assert data == [first_vacancy_dict, second_vacancy_dict]
 
 
-def test_save_to_json_delete_from_file(reset_vacancies_and_employers_id: Any,
-                                       saver_json: SaveToJSONFile,
+def test_save_to_json_delete_from_file(saver_json: SaveToJSONFile,
                                        first_vacancy: Vacancy,
                                        second_vacancy: Vacancy,
                                        first_vacancy_dict: dict) -> None:
