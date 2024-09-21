@@ -48,8 +48,8 @@ class SaveToJSONFile(SaveToFile):
         """
         data = self.read_from_file()
 
-        for index, item in enumerate(data):
-            if item == item.to_dict():
+        for index, element in enumerate(data):
+            if element == item.to_dict():
                 data.pop(index)
 
         with open(f"data/{self.__file_name}.json", "w") as file:
