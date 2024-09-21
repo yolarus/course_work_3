@@ -4,6 +4,7 @@ from src.save_to_json_file import SaveToJSONFile
 from src.vacancy import Vacancy
 from src.employer import Employer
 from src.save_to_postgreSQL import SaveToDBPostgreSQL
+from src.db_manager import DBManager
 
 
 @pytest.fixture
@@ -241,5 +242,82 @@ def reset_vacancies_and_employers_id() -> None:
 
 
 @pytest.fixture
-def postgre_saver() -> SaveToDBPostgreSQL:
-    return SaveToDBPostgreSQL()
+def postgre_saver_create_db() -> None:
+    """
+    Фикстура - создание БД
+    :return: None
+    """
+    result = SaveToDBPostgreSQL()
+    result.create_db("alyautdinov_rt_cw_3_test")
+
+
+@pytest.fixture
+def postgre_saver_create_table(first_vacancy: Vacancy,
+                               first_employer: Employer) -> None:
+    """
+    Фикстура - создание таблиц в БД
+    :return: None
+    """
+    result = SaveToDBPostgreSQL()
+    result.create_table("vacancies",
+                        first_vacancy.get_headers_to_db(),
+                        "alyautdinov_rt_cw_3_test")
+    result.create_table("employers",
+                        first_employer.get_headers_to_db(),
+                        "alyautdinov_rt_cw_3_test")
+
+
+@pytest.fixture
+def postgre_saver_fill_table(first_vacancy: Vacancy,
+                             second_vacancy: Vacancy,
+                             first_employer: Employer,
+                             second_employer: Employer) -> None:
+    """
+    Фикстура - заполнение таблиц в БД
+    :return: None
+    """
+    result = SaveToDBPostgreSQL()
+    result.fill_table("vacancies",
+                      [first_vacancy.get_insert_data_to_db(), second_vacancy.get_insert_data_to_db()],
+                      "alyautdinov_rt_cw_3_test")
+    result.fill_table("employers",
+                      [first_employer.get_insert_data_to_db(), second_employer.get_insert_data_to_db()],
+                      "alyautdinov_rt_cw_3_test")
+
+
+@pytest.fixture
+def postgre_saver_add_pk() -> None:
+    """
+    Фикстура - создание PRIMARY KEY в таблицах БД
+    :return: None
+    """
+    result = SaveToDBPostgreSQL()
+    result.add_pk_to_table("vacancies",
+                           "vacancy_id",
+                           "alyautdinov_rt_cw_3_test")
+    result.add_pk_to_table("employers",
+                           "employer_id",
+                           "alyautdinov_rt_cw_3_test")
+
+
+@pytest.fixture
+def postgre_saver_add_fk() -> None:
+    """
+    Фикстура - создание FOREIGN KEY в таблице БД
+    :return: None
+    """
+    result = SaveToDBPostgreSQL()
+    result.add_fk_to_table("vacancies",
+                           "employer_id",
+                           "employers",
+                           "employer_id",
+                           "alyautdinov_rt_cw_3_test")
+
+
+@pytest.fixture
+def postgre_manager() -> DBManager:
+    """
+    Фикстура - объект DBManager - для выборки данных из БД
+    :return: None
+    """
+    return DBManager()
