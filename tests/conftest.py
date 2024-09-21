@@ -28,6 +28,18 @@ def second_employer() -> Employer:
 
 
 @pytest.fixture
+def first_employer_dict() -> dict:
+    """
+    Фикстура - объект 1 класса Employer, преобразованный в словарь
+    """
+    return {"employer_id": 1,
+            "name": "Test",
+            "url": "don't have",
+            "url_to_vacancies_list": "url_to_vacancies_list",
+            "open_vacancies": 1}
+
+
+@pytest.fixture
 def first_vacancy() -> Vacancy:
     """
     Фикстура - объект 1 класса Vacancy
@@ -159,3 +171,27 @@ def insert_data_first_vacancy() -> list:
             "description",
             "requirements",
             "Москва"]
+
+
+@pytest.fixture
+def headers_employers() -> list:
+    """
+    Фикстура - список заголовков таблицы employers в БД
+    """
+    return ["employer_id int",
+            "name varchar(255)",
+            "url varchar(255)",
+            "url_to_vacancies_list varchar(255)",
+            "open_vacancies int"]
+
+
+@pytest.fixture
+def insert_data_first_employer() -> list:
+    """
+    Фикстура - выгрузка данных объекта 1 класса Employer
+    """
+    return [1,
+            "Test",
+            "don't have",
+            "url_to_vacancies_list",
+            1]
