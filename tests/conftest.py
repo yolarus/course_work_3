@@ -3,6 +3,7 @@ import pytest
 from src.save_to_json_file import SaveToJSONFile
 from src.vacancy import Vacancy
 from src.employer import Employer
+from src.save_to_postgreSQL import SaveToDBPostgreSQL
 
 
 @pytest.fixture
@@ -237,3 +238,8 @@ def reset_vacancies_and_employers_id() -> None:
     """
     Vacancy.ID = 0
     Employer.ID = 0
+
+
+@pytest.fixture
+def postgre_saver() -> SaveToDBPostgreSQL:
+    return SaveToDBPostgreSQL()

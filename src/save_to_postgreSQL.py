@@ -37,18 +37,19 @@ class SaveToDBPostgreSQL:
             conn.close()
 
     @staticmethod
-    def create_table(table_name: str, headers: list[str]) -> None:
+    def create_table(table_name: str, headers: list[str], db_name: str = "alyautdinov_rt_cw_3") -> None:
         """
         Создание новой таблицы в БД
         :param table_name: имя таблицы
         :param headers: список строк с именами и типами заголовков таблицы на языке SQL
+        :param db_name: Имя базы данных
         :return: None
         """
         conn = psycopg2.connect(host="localhost",
                                 port="5432",
                                 user="postgres",
                                 password=password_to_postgres,
-                                dbname="alyautdinov_rt_cw_3")
+                                dbname=db_name)
 
         try:
             with conn:
@@ -59,11 +60,12 @@ class SaveToDBPostgreSQL:
             print("Ошибка при работе с PostgreSQL:", error)
 
     @staticmethod
-    def fill_table(table_name: str, values: list[list]) -> None:
+    def fill_table(table_name: str, values: list[list], db_name: str = "alyautdinov_rt_cw_3") -> None:
         """
         Заполнение таблицы данным из списка values
         :param table_name: имя таблицы
         :param values: список списков со значениями каждой сущности
+        :param db_name: Имя базы данных
         :return: None
         """
 
@@ -71,7 +73,7 @@ class SaveToDBPostgreSQL:
                                 port="5432",
                                 user="postgres",
                                 password=password_to_postgres,
-                                dbname="alyautdinov_rt_cw_3")
+                                dbname=db_name)
         try:
             with conn:
                 with conn.cursor() as cur:
@@ -81,11 +83,12 @@ class SaveToDBPostgreSQL:
             print("Ошибка при работе с PostgreSQL:", error)
 
     @staticmethod
-    def add_pk_to_table(table_name: str, column_name: str) -> None:
+    def add_pk_to_table(table_name: str, column_name: str, db_name: str = "alyautdinov_rt_cw_3") -> None:
         """
         Добавление PRIMARY KEY в таблицу
         :param table_name: Имя таблицы для добавления PRIMARY KEY
         :param column_name: Имя столбца, выступающий PRIMARY KEY
+        :param db_name: Имя базы данных
         :return: None
         """
 
@@ -93,7 +96,7 @@ class SaveToDBPostgreSQL:
                                 port="5432",
                                 user="postgres",
                                 password=password_to_postgres,
-                                dbname="alyautdinov_rt_cw_3")
+                                dbname=db_name)
         try:
             with conn:
                 with conn.cursor() as cur:
@@ -103,13 +106,14 @@ class SaveToDBPostgreSQL:
             print("Ошибка при работе с PostgreSQL:", error)
 
     @staticmethod
-    def add_fk_to_table(table_name: str, column_name: str, ref_table_name: str, ref_column_name: str) -> None:
+    def add_fk_to_table(table_name: str, column_name: str, ref_table_name: str, ref_column_name: str, db_name: str = "alyautdinov_rt_cw_3") -> None:
         """
         Добавление FOREIGN KEY в таблицу
         :param table_name: Имя таблицы для добавления FOREIGN KEY
         :param column_name: Имя столбца, выступающий FOREIGN KEY
         :param ref_table_name: Имя таблицы, на которую будет ссылаться FOREIGN KEY
         :param ref_column_name: Имя столбца, на который будет ссылаться FOREIGN KEY
+        :param db_name: Имя базы данных
         :return: None
         """
 
@@ -117,7 +121,7 @@ class SaveToDBPostgreSQL:
                                 port="5432",
                                 user="postgres",
                                 password=password_to_postgres,
-                                dbname="alyautdinov_rt_cw_3")
+                                dbname=db_name)
         try:
             with conn:
                 with conn.cursor() as cur:
