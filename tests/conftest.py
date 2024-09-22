@@ -276,6 +276,9 @@ def postgre_saver_fill_table(first_vacancy: Vacancy,
     Фикстура - заполнение таблиц в БД
     :return: None
     """
+    first_vacancy.employer_id = 2
+    second_vacancy.employer_id = 1
+
     result = SaveToDBPostgreSQL()
     result.fill_table("vacancies",
                       [first_vacancy.get_insert_data_to_db(), second_vacancy.get_insert_data_to_db()],
@@ -318,6 +321,6 @@ def postgre_saver_add_fk() -> None:
 def postgre_manager() -> DBManager:
     """
     Фикстура - объект DBManager - для выборки данных из БД
-    :return: None
+    :return: объект DBManager
     """
     return DBManager()
