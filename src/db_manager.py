@@ -14,9 +14,10 @@ class DBManager:
     """
 
     @staticmethod
-    def get_companies_and_vacancies_count() -> list:
+    def get_companies_and_vacancies_count(db_name: str = "alyautdinov_rt_cw_3") -> list:
         """
         Получение списка всех компаний и количества вакансий у каждой компании
+        :param db_name: Имя базы данных
         :return: Список кортежей: компания - количество вакансий
         """
 
@@ -24,7 +25,7 @@ class DBManager:
                                 port="5432",
                                 user="postgres",
                                 password=password_to_postgres,
-                                dbname="alyautdinov_rt_cw_3")
+                                dbname=db_name)
         result = []
         try:
             with conn:
@@ -37,9 +38,10 @@ class DBManager:
         return result
 
     @staticmethod
-    def get_all_vacancies() -> list:
+    def get_all_vacancies(db_name: str = "alyautdinov_rt_cw_3") -> list:
         """
         Получение списка всех вакансий
+        :param db_name: Имя базы данных
         :return: Список кортежей: название компании - название вакансии - зарплата от - зарплата до
          - зарплата валюта - ссылка на вакансию
         """
@@ -48,7 +50,7 @@ class DBManager:
                                 port="5432",
                                 user="postgres",
                                 password=password_to_postgres,
-                                dbname="alyautdinov_rt_cw_3")
+                                dbname=db_name)
         result = []
         try:
             with conn:
@@ -64,10 +66,11 @@ class DBManager:
         return result
 
     @staticmethod
-    def get_avg_salary(currency: str = "RUR") -> str:
+    def get_avg_salary(currency: str = "RUR", db_name: str = "alyautdinov_rt_cw_3") -> str:
         """
         Получение средней зарплаты по вакансиям в заданной валюте
         :param currency: Код валюты в формате 'RUR'
+        :param db_name: Имя базы данных
         :return: Средняя зарплата по вакансиям
         """
 
@@ -75,7 +78,7 @@ class DBManager:
                                 port="5432",
                                 user="postgres",
                                 password=password_to_postgres,
-                                dbname="alyautdinov_rt_cw_3")
+                                dbname=db_name)
         result = ""
         try:
             with conn:
@@ -90,21 +93,22 @@ class DBManager:
 
         return result
 
-    def get_vacancies_with_higher_salary(self, currency: str = "RUR") -> list:
+    def get_vacancies_with_higher_salary(self, currency: str = "RUR", db_name: str = "alyautdinov_rt_cw_3") -> list:
         """
         Получение списка вакансий с зарплатой выше среднего
         :param currency: Код валюты в формате 'RUR'
+        :param db_name: Имя базы данных
         :return: Список кортежей: название компании - название вакансии - зарплата от - зарплата до
          - зарплата валюта - ссылка на вакансию
         """
 
-        avg_salary = float(self.get_avg_salary(currency).split()[0])
+        avg_salary = float(self.get_avg_salary(currency, db_name).split()[0])
 
         conn = psycopg2.connect(host="localhost",
                                 port="5432",
                                 user="postgres",
                                 password=password_to_postgres,
-                                dbname="alyautdinov_rt_cw_3")
+                                dbname=db_name)
         result = []
         try:
             with conn:
@@ -122,9 +126,10 @@ class DBManager:
         return result
 
     @staticmethod
-    def get_vacancies_with_keyword(keyword: str) -> list:
+    def get_vacancies_with_keyword(keyword: str, db_name: str = "alyautdinov_rt_cw_3") -> list:
         """
         Получение списка вакансий по ключевому слову в названии
+        :param db_name: Имя базы данных
         :param keyword: Ключевое слово для поиска
         :return: Список кортежей: название компании - название вакансии - зарплата от - зарплата до
          - зарплата валюта - ссылка на вакансию
@@ -134,7 +139,7 @@ class DBManager:
                                 port="5432",
                                 user="postgres",
                                 password=password_to_postgres,
-                                dbname="alyautdinov_rt_cw_3")
+                                dbname=db_name)
         result = []
 
         try:
