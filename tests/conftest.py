@@ -1,10 +1,10 @@
 import pytest
 
-from src.save_to_json_file import SaveToJSONFile
-from src.vacancy import Vacancy
-from src.employer import Employer
-from src.save_to_postgreSQL import SaveToDBPostgreSQL
 from src.db_manager import DBManager
+from src.employer import Employer
+from src.save_to_json_file import SaveToJSONFile
+from src.save_to_postgreSQL import SaveToDBPostgreSQL
+from src.vacancy import Vacancy
 
 
 @pytest.fixture

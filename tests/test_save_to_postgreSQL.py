@@ -1,8 +1,8 @@
 import os
-from dotenv import load_dotenv
-from src.save_to_postgreSQL import SaveToDBPostgreSQL
-import psycopg2
 from typing import Any
+
+import psycopg2
+from dotenv import load_dotenv
 
 load_dotenv(".env")
 password_to_postgres = os.getenv("PASSWORD_TO_POSTGRES")

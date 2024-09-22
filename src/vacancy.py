@@ -8,7 +8,7 @@ class Vacancy:
     __slots__ = ("vacancy_id", "employer_id", "name", "url", "salary", "short_description", "requirements", "area")
     ID: int = 0
     vacancy_id: int
-    employer_id: int
+    employer_id: Optional[int]
     name: str
     url: str
     salary: dict

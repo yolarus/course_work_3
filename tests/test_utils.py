@@ -1,9 +1,8 @@
+import json
 from typing import Any
 
-from src.utils import list_of_vacancies, list_of_employers, use_to_list_json_saver
+from src.utils import list_of_employers, list_of_vacancies, use_to_list_json_saver
 from src.vacancy import Vacancy
-from src.employer import Employer
-import json
 
 
 def test_list_of_vacancies(full_info_first_vacancy: dict,
@@ -41,7 +40,7 @@ def test_use_to_list_json_saver(first_vacancy: Vacancy,
     """
     Тестирование функции сохранения через класс SaveToJSONFile списка объектов
     """
-    use_to_list_json_saver([first_vacancy, second_vacancy],"test_data/test_list")
+    use_to_list_json_saver([first_vacancy, second_vacancy], "test_data/test_list")
 
     with open("data/test_data/test_list.json", "r") as f:
         data = json.load(f)

@@ -106,7 +106,9 @@ class SaveToDBPostgreSQL:
             print("Ошибка при работе с PostgreSQL:", error)
 
     @staticmethod
-    def add_fk_to_table(table_name: str, column_name: str, ref_table_name: str, ref_column_name: str, db_name: str = "alyautdinov_rt_cw_3") -> None:
+    def add_fk_to_table(table_name: str, column_name: str,
+                        ref_table_name: str, ref_column_name: str,
+                        db_name: str = "alyautdinov_rt_cw_3") -> None:
         """
         Добавление FOREIGN KEY в таблицу
         :param table_name: Имя таблицы для добавления FOREIGN KEY

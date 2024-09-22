@@ -1,11 +1,9 @@
 from typing import Any
 from unittest.mock import patch
 
-import pytest
-
+from src.employer import Employer
 from src.head_hunter_api import HeadHunterAPI
 from src.vacancy import Vacancy
-from src.employer import Employer
 
 
 @patch("requests.get")
@@ -30,7 +28,9 @@ def test_head_hunter_api_get_status_error(mock_get: Any) -> None:
 
 @patch("requests.get")
 @patch("src.head_hunter_api.HeadHunterAPI.get_status")
-def test_head_hunter_api_get_employers(mock_get_status: Any, mock_get_employers: Any, first_employer: Employer) -> None:
+def test_head_hunter_api_get_employers(mock_get_status: Any,
+                                       mock_get_employers: Any,
+                                       first_employer: Employer) -> None:
     """
     Тест получения списка работодателей с hh.ru
     """
@@ -53,7 +53,9 @@ def test_head_hunter_api_get_employers_error(mock_get_status: Any) -> None:
 
 @patch("requests.get")
 @patch("src.head_hunter_api.HeadHunterAPI.get_status")
-def test_head_hunter_api_get_vacancies_by_url(mock_get_status: Any, mock_get_vacancies: Any, first_vacancy: Vacancy) -> None:
+def test_head_hunter_api_get_vacancies_by_url(mock_get_status: Any,
+                                              mock_get_vacancies: Any,
+                                              first_vacancy: Vacancy) -> None:
     """
     Тест получения списка вакансий с hh.ru
     """

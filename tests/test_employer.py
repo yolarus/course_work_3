@@ -1,5 +1,4 @@
 from src.employer import Employer
-from typing import Any
 
 
 def test_employer_str(first_employer: Employer) -> None:

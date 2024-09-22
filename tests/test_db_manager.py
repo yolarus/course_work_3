@@ -1,8 +1,9 @@
 import os
-from dotenv import load_dotenv
-from src.db_manager import DBManager
 from typing import Any
-import psycopg2
+
+from dotenv import load_dotenv
+
+from src.db_manager import DBManager
 
 load_dotenv(".env")
 password_to_postgres = os.getenv("PASSWORD_TO_POSTGRES")

@@ -1,5 +1,4 @@
 from src.vacancy import Vacancy
-from typing import Any
 
 
 def test_vacancy_str(first_vacancy: Vacancy) -> None:
