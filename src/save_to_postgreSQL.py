@@ -24,8 +24,7 @@ class SaveToDBPostgreSQL:
         conn = psycopg2.connect(host="localhost",
                                 port="5432",
                                 user="postgres",
-                                password=password_to_postgres,
-                                dbname="postgres")
+                                password=password_to_postgres)
         conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
         try:
             with conn.cursor() as cur:
