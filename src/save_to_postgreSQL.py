@@ -1,12 +1,7 @@
-import os
-
-import psycopg2
-from dotenv import load_dotenv
 from psycopg2 import Error
-from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
+from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT, connection
 
-load_dotenv(".env")
-password_to_postgres = os.getenv("PASSWORD_TO_POSTGRES")
+from src.utils import connect_to_db
 
 
 class SaveToDBPostgreSQL:
@@ -15,16 +10,22 @@ class SaveToDBPostgreSQL:
     """
 
     @staticmethod
-    def create_db(db_name: str) -> None:
+    def __connect_to_db(db_name: str | None = None) -> connection:
+        """
+        Подключение к БД
+        :param db_name: Имя БД
+        :return: Объект класса connection
+        """
+        return connect_to_db(db_name=db_name)
+
+    def create_db(self, db_name: str) -> None:
         """
         Создание новой БД для последующей работы
         :return: None
         """
 
-        conn = psycopg2.connect(host="localhost",
-                                port="5432",
-                                user="postgres",
-                                password=password_to_postgres)
+        conn = self.__connect_to_db(db_name)
+
         conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
         try:
             with conn.cursor() as cur:
@@ -35,8 +36,7 @@ class SaveToDBPostgreSQL:
         finally:
             conn.close()
 
-    @staticmethod
-    def create_table(table_name: str, headers: list[str], db_name: str = "alyautdinov_rt_cw_3") -> None:
+    def create_table(self, table_name: str, headers: list[str], db_name: str = "alyautdinov_rt_cw_3") -> None:
         """
         Создание новой таблицы в БД
         :param table_name: имя таблицы
@@ -44,11 +44,7 @@ class SaveToDBPostgreSQL:
         :param db_name: Имя базы данных
         :return: None
         """
-        conn = psycopg2.connect(host="localhost",
-                                port="5432",
-                                user="postgres",
-                                password=password_to_postgres,
-                                dbname=db_name)
+        conn = self.__connect_to_db(db_name)
 
         try:
             with conn:
@@ -58,8 +54,7 @@ class SaveToDBPostgreSQL:
         except (Exception, Error) as error:
             print("Ошибка при работе с PostgreSQL:", error)
 
-    @staticmethod
-    def fill_table(table_name: str, values: list[list], db_name: str = "alyautdinov_rt_cw_3") -> None:
+    def fill_table(self, table_name: str, values: list[list], db_name: str = "alyautdinov_rt_cw_3") -> None:
         """
         Заполнение таблицы данным из списка values
         :param table_name: имя таблицы
@@ -68,11 +63,8 @@ class SaveToDBPostgreSQL:
         :return: None
         """
 
-        conn = psycopg2.connect(host="localhost",
-                                port="5432",
-                                user="postgres",
-                                password=password_to_postgres,
-                                dbname=db_name)
+        conn = self.__connect_to_db(db_name)
+
         try:
             with conn:
                 with conn.cursor() as cur:
@@ -81,8 +73,7 @@ class SaveToDBPostgreSQL:
         except (Exception, Error) as error:
             print("Ошибка при работе с PostgreSQL:", error)
 
-    @staticmethod
-    def add_pk_to_table(table_name: str, column_name: str, db_name: str = "alyautdinov_rt_cw_3") -> None:
+    def add_pk_to_table(self, table_name: str, column_name: str, db_name: str = "alyautdinov_rt_cw_3") -> None:
         """
         Добавление PRIMARY KEY в таблицу
         :param table_name: Имя таблицы для добавления PRIMARY KEY
@@ -91,11 +82,8 @@ class SaveToDBPostgreSQL:
         :return: None
         """
 
-        conn = psycopg2.connect(host="localhost",
-                                port="5432",
-                                user="postgres",
-                                password=password_to_postgres,
-                                dbname=db_name)
+        conn = self.__connect_to_db(db_name)
+
         try:
             with conn:
                 with conn.cursor() as cur:
@@ -104,8 +92,7 @@ class SaveToDBPostgreSQL:
         except (Exception, Error) as error:
             print("Ошибка при работе с PostgreSQL:", error)
 
-    @staticmethod
-    def add_fk_to_table(table_name: str, column_name: str,
+    def add_fk_to_table(self, table_name: str, column_name: str,
                         ref_table_name: str, ref_column_name: str,
                         db_name: str = "alyautdinov_rt_cw_3") -> None:
         """
@@ -118,11 +105,8 @@ class SaveToDBPostgreSQL:
         :return: None
         """
 
-        conn = psycopg2.connect(host="localhost",
-                                port="5432",
-                                user="postgres",
-                                password=password_to_postgres,
-                                dbname=db_name)
+        conn = self.__connect_to_db(db_name)
+
         try:
             with conn:
                 with conn.cursor() as cur:

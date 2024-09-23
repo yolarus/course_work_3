@@ -1,12 +1,6 @@
-import os
 from typing import Any
 
-from dotenv import load_dotenv
-
 from src.db_manager import DBManager
-
-load_dotenv(".env")
-password_to_postgres = os.getenv("PASSWORD_TO_POSTGRES")
 
 
 def test_db_manager_get_companies_and_vacancies_count(postgre_saver_create_db: Any,

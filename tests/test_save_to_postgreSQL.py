@@ -1,11 +1,6 @@
-import os
 from typing import Any
 
-import psycopg2
-from dotenv import load_dotenv
-
-load_dotenv(".env")
-password_to_postgres = os.getenv("PASSWORD_TO_POSTGRES")
+from src.utils import connect_to_db
 
 
 def test_save_to_postgresql_create_db(postgre_saver_create_db: Any) -> None:
@@ -13,10 +8,7 @@ def test_save_to_postgresql_create_db(postgre_saver_create_db: Any) -> None:
     Тестирование создания базы данных
     """
 
-    conn = psycopg2.connect(host="localhost",
-                            port="5432",
-                            user="postgres",
-                            password=password_to_postgres)
+    conn = connect_to_db()
 
     with conn:
         with conn.cursor() as cur:
@@ -31,11 +23,7 @@ def test_save_to_postgresql_create_table(postgre_saver_create_db: Any,
     Тестирование создания таблиц в базе данных
     """
 
-    conn = psycopg2.connect(host="localhost",
-                            port="5432",
-                            user="postgres",
-                            password=password_to_postgres,
-                            dbname="alyautdinov_rt_cw_3_test")
+    conn = connect_to_db(db_name="alyautdinov_rt_cw_3_test")
 
     with conn:
         with conn.cursor() as cur:
@@ -56,11 +44,7 @@ def test_save_to_postgresql_fill_table(postgre_saver_create_db: Any,
     Тестирование заполнения таблиц в базе данных
     """
 
-    conn = psycopg2.connect(host="localhost",
-                            port="5432",
-                            user="postgres",
-                            password=password_to_postgres,
-                            dbname="alyautdinov_rt_cw_3_test")
+    conn = connect_to_db(db_name="alyautdinov_rt_cw_3_test")
 
     with conn:
         with conn.cursor() as cur:
@@ -77,11 +61,7 @@ def test_save_to_postgresql_add_pk_to_table(postgre_saver_create_db: Any,
     Тестирование добавления PRIMARY KEY в таблицы базы данных
     """
 
-    conn = psycopg2.connect(host="localhost",
-                            port="5432",
-                            user="postgres",
-                            password=password_to_postgres,
-                            dbname="alyautdinov_rt_cw_3_test")
+    conn = connect_to_db(db_name="alyautdinov_rt_cw_3_test")
 
     with conn:
         with conn.cursor() as cur:
@@ -116,11 +96,7 @@ def test_save_to_postgresql_add_fk_to_table(postgre_saver_create_db: Any,
     Тестирование добавления FOREIGN KEY в таблицу базы данных
     """
 
-    conn = psycopg2.connect(host="localhost",
-                            port="5432",
-                            user="postgres",
-                            password=password_to_postgres,
-                            dbname="alyautdinov_rt_cw_3_test")
+    conn = connect_to_db(db_name="alyautdinov_rt_cw_3_test")
 
     with conn:
         with conn.cursor() as cur:

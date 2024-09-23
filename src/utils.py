@@ -1,8 +1,19 @@
+import os
 from typing import Optional
+
+import psycopg2
+from dotenv import load_dotenv
+from psycopg2.extensions import connection
 
 from src.employer import Employer
 from src.save_to_json_file import SaveToJSONFile
 from src.vacancy import Vacancy
+
+load_dotenv(".env")
+host = os.getenv("HOST")
+port = os.getenv("PORT")
+user = os.getenv("USER_NAME")
+password_to_postgres = os.getenv("PASSWORD_TO_POSTGRES")
 
 
 def list_of_vacancies(full_info_vacancies: list, employer_id: Optional[int] = None) -> list[Vacancy]:
@@ -60,3 +71,24 @@ def use_to_list_json_saver(items: list, file_name: str) -> None:
     for item in items:
         item_json_saver.add_to_file(item)
     print(f"Данные выгружены в файл: data/{file_name}.json")
+
+
+def connect_to_db(host: str | None = host,
+                  port: str | None = port,
+                  user: str | None = user,
+                  password: str | None = password_to_postgres,
+                  db_name: str | None = None) -> connection:
+    """
+    Функция для подключения к БД postgreSQL
+    :param host: Имя сервера
+    :param port: Номер порта
+    :param user: Имя пользователя
+    :param password: Пароль пользователя
+    :param db_name: Имя БД
+    :return: Объект connection
+    """
+    return psycopg2.connect(host=host,
+                            port=port,
+                            user=user,
+                            password=password,
+                            dbname=db_name)

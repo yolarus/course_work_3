@@ -1,11 +1,7 @@
-import os
-
-import psycopg2
-from dotenv import load_dotenv
 from psycopg2 import Error
+from psycopg2.extensions import connection
 
-load_dotenv(".env")
-password_to_postgres = os.getenv("PASSWORD_TO_POSTGRES")
+from src.utils import connect_to_db
 
 
 class DBManager:
@@ -14,18 +10,23 @@ class DBManager:
     """
 
     @staticmethod
-    def get_companies_and_vacancies_count(db_name: str = "alyautdinov_rt_cw_3") -> list:
+    def __connect_to_db(db_name: str | None = None) -> connection:
+        """
+        Подключение к БД
+        :param db_name: Имя БД
+        :return: Объект класса connection
+        """
+        return connect_to_db(db_name=db_name)
+
+    def get_companies_and_vacancies_count(self, db_name: str = "alyautdinov_rt_cw_3") -> list:
         """
         Получение списка всех компаний и количества вакансий у каждой компании
         :param db_name: Имя базы данных
         :return: Список кортежей: компания - количество вакансий
         """
 
-        conn = psycopg2.connect(host="localhost",
-                                port="5432",
-                                user="postgres",
-                                password=password_to_postgres,
-                                dbname=db_name)
+        conn = self.__connect_to_db(db_name)
+
         result = []
         try:
             with conn:
@@ -37,8 +38,7 @@ class DBManager:
 
         return result
 
-    @staticmethod
-    def get_all_vacancies(db_name: str = "alyautdinov_rt_cw_3") -> list:
+    def get_all_vacancies(self, db_name: str = "alyautdinov_rt_cw_3") -> list:
         """
         Получение списка всех вакансий
         :param db_name: Имя базы данных
@@ -46,11 +46,8 @@ class DBManager:
          - зарплата валюта - ссылка на вакансию
         """
 
-        conn = psycopg2.connect(host="localhost",
-                                port="5432",
-                                user="postgres",
-                                password=password_to_postgres,
-                                dbname=db_name)
+        conn = self.__connect_to_db(db_name)
+
         result = []
         try:
             with conn:
@@ -65,8 +62,7 @@ class DBManager:
 
         return result
 
-    @staticmethod
-    def get_avg_salary(currency: str = "RUR", db_name: str = "alyautdinov_rt_cw_3") -> str:
+    def get_avg_salary(self, currency: str = "RUR", db_name: str = "alyautdinov_rt_cw_3") -> str:
         """
         Получение средней зарплаты по вакансиям в заданной валюте
         :param currency: Код валюты в формате 'RUR'
@@ -74,11 +70,8 @@ class DBManager:
         :return: Средняя зарплата по вакансиям
         """
 
-        conn = psycopg2.connect(host="localhost",
-                                port="5432",
-                                user="postgres",
-                                password=password_to_postgres,
-                                dbname=db_name)
+        conn = self.__connect_to_db(db_name)
+
         result = ""
         try:
             with conn:
@@ -104,11 +97,8 @@ class DBManager:
 
         avg_salary = float(self.get_avg_salary(currency, db_name).split()[0])
 
-        conn = psycopg2.connect(host="localhost",
-                                port="5432",
-                                user="postgres",
-                                password=password_to_postgres,
-                                dbname=db_name)
+        conn = self.__connect_to_db(db_name)
+
         result = []
         try:
             with conn:
@@ -125,8 +115,7 @@ class DBManager:
 
         return result
 
-    @staticmethod
-    def get_vacancies_with_keyword(keyword: str, db_name: str = "alyautdinov_rt_cw_3") -> list:
+    def get_vacancies_with_keyword(self, keyword: str, db_name: str = "alyautdinov_rt_cw_3") -> list:
         """
         Получение списка вакансий по ключевому слову в названии
         :param db_name: Имя базы данных
@@ -135,11 +124,8 @@ class DBManager:
          - зарплата валюта - ссылка на вакансию
         """
 
-        conn = psycopg2.connect(host="localhost",
-                                port="5432",
-                                user="postgres",
-                                password=password_to_postgres,
-                                dbname=db_name)
+        conn = self.__connect_to_db(db_name)
+
         result = []
 
         try:
