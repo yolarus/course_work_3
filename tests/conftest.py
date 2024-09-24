@@ -1,3 +1,5 @@
+from typing import Any
+
 import pytest
 
 from src.db_manager import DBManager
@@ -315,6 +317,15 @@ def postgre_saver_add_fk() -> None:
                            "employers",
                            "employer_id",
                            "alyautdinov_rt_cw_3_test")
+
+
+@pytest.fixture
+def previously_on_postgre_manager(postgre_saver_create_db: Any,
+                                  postgre_saver_create_table: Any,
+                                  postgre_saver_fill_table: Any,
+                                  postgre_saver_add_pk: Any,
+                                  postgre_saver_add_fk: Any) -> None:
+    pass
 
 
 @pytest.fixture

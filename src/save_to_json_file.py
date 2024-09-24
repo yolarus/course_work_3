@@ -21,14 +21,14 @@ class SaveToJSONFile(SaveToFile):
         в новый файл формата .json/ перезаписи файла формата .json
         """
         data = [item.to_dict()]
-        with open(f"data/{self.__file_name}.json", "w") as file:
+        with open(f"data/{self.__file_name}.json", "w", encoding="UTF-8") as file:
             json.dump(data, file, indent=4, ensure_ascii=False)
 
     def read_from_file(self) -> Any:
         """
         Метод для получения списка объектов класса Vacancy, Employer из файла формата .json
         """
-        with open(f"data/{self.__file_name}.json", "r") as file:
+        with open(f"data/{self.__file_name}.json", "r", encoding="UTF-8") as file:
             data = json.load(file)
         return data
 
@@ -39,7 +39,7 @@ class SaveToJSONFile(SaveToFile):
         data = self.read_from_file()
         if item.to_dict() not in data:
             data.append(item.to_dict())
-        with open(f"data/{self.__file_name}.json", "w") as file:
+        with open(f"data/{self.__file_name}.json", "w", encoding="UTF-8") as file:
             json.dump(data, file, indent=4, ensure_ascii=False)
 
     def delete_from_file(self, item: Vacancy | Employer) -> None:
@@ -52,9 +52,9 @@ class SaveToJSONFile(SaveToFile):
             if element == item.to_dict():
                 data.pop(index)
 
-        with open(f"data/{self.__file_name}.json", "w") as file:
+        with open(f"data/{self.__file_name}.json", "w", encoding="UTF-8") as file:
             json.dump(data, file, indent=4, ensure_ascii=False)
 
     def clear_file(self) -> None:
-        with open(f"data/{self.__file_name}.json", "w") as file:
+        with open(f"data/{self.__file_name}.json", "w", encoding="UTF-8") as file:
             json.dump([], file)

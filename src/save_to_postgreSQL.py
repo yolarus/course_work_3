@@ -23,18 +23,16 @@ class SaveToDBPostgreSQL:
         Создание новой БД для последующей работы
         :return: None
         """
-
-        conn = self.__connect_to_db(db_name)
-
-        conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
         try:
+            conn = self.__connect_to_db()
+
+            conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
             with conn.cursor() as cur:
                 cur.execute(f"DROP DATABASE IF EXISTS {db_name};")
                 cur.execute(f"CREATE DATABASE {db_name};")
+            conn.close()
         except (Exception, Error) as error:
             print("Ошибка при работе с PostgreSQL:", error)
-        finally:
-            conn.close()
 
     def create_table(self, table_name: str, headers: list[str], db_name: str = "alyautdinov_rt_cw_3") -> None:
         """
@@ -44,9 +42,9 @@ class SaveToDBPostgreSQL:
         :param db_name: Имя базы данных
         :return: None
         """
-        conn = self.__connect_to_db(db_name)
 
         try:
+            conn = self.__connect_to_db(db_name)
             with conn:
                 with conn.cursor() as cur:
                     cur.execute(f"DROP TABLE IF EXISTS {table_name}")
@@ -63,9 +61,8 @@ class SaveToDBPostgreSQL:
         :return: None
         """
 
-        conn = self.__connect_to_db(db_name)
-
         try:
+            conn = self.__connect_to_db(db_name)
             with conn:
                 with conn.cursor() as cur:
                     for value in values:
@@ -82,9 +79,8 @@ class SaveToDBPostgreSQL:
         :return: None
         """
 
-        conn = self.__connect_to_db(db_name)
-
         try:
+            conn = self.__connect_to_db(db_name)
             with conn:
                 with conn.cursor() as cur:
                     cur.execute(f"ALTER TABLE {table_name} "
@@ -105,9 +101,8 @@ class SaveToDBPostgreSQL:
         :return: None
         """
 
-        conn = self.__connect_to_db(db_name)
-
         try:
+            conn = self.__connect_to_db(db_name)
             with conn:
                 with conn.cursor() as cur:
                     cur.execute(f"ALTER TABLE {table_name} "

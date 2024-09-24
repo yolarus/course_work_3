@@ -1,4 +1,7 @@
 from typing import Any
+from unittest.mock import patch
+
+import pytest
 
 from src.utils import connect_to_db
 
@@ -110,3 +113,20 @@ def test_save_to_postgresql_add_fk_to_table(postgre_saver_create_db: Any,
                         "AND pk.CONSTRAINT_TYPE = 'FOREIGN KEY';")
             result = cur.fetchall()[0][0]
     assert result == "employer_id"
+
+
+@pytest.mark.parametrize("method_fixture", ["postgre_saver_create_db",
+                                            "postgre_saver_create_table",
+                                            "postgre_saver_fill_table",
+                                            "postgre_saver_add_pk",
+                                            "postgre_saver_add_fk"])
+def test_save_to_postgresql_error_connection(method_fixture: Any,
+                                             capsys: Any,
+                                             request: pytest.FixtureRequest) -> None:
+    """
+    Тестирование ошибки соединения во всех методах
+    """
+    with patch("psycopg2.connect", side_effect=Exception('Ошибка соединения с БД')):
+        request.getfixturevalue(method_fixture)
+        message = capsys.readouterr()
+        assert message.out.split("\n")[0] == "Ошибка при работе с PostgreSQL: Ошибка соединения с БД"

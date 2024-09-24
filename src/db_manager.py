@@ -25,10 +25,9 @@ class DBManager:
         :return: Список кортежей: компания - количество вакансий
         """
 
-        conn = self.__connect_to_db(db_name)
-
         result = []
         try:
+            conn = self.__connect_to_db(db_name)
             with conn:
                 with conn.cursor() as cur:
                     cur.execute("SELECT name, open_vacancies FROM employers")
@@ -46,10 +45,9 @@ class DBManager:
          - зарплата валюта - ссылка на вакансию
         """
 
-        conn = self.__connect_to_db(db_name)
-
         result = []
         try:
+            conn = self.__connect_to_db(db_name)
             with conn:
                 with conn.cursor() as cur:
                     query = ("SELECT employers.name, vacancies.name, vacancies.salary_from, "
@@ -70,10 +68,9 @@ class DBManager:
         :return: Средняя зарплата по вакансиям
         """
 
-        conn = self.__connect_to_db(db_name)
-
         result = ""
         try:
+            conn = self.__connect_to_db(db_name)
             with conn:
                 with conn.cursor() as cur:
                     query = (f"SELECT AVG(salary_from), AVG(salary_to) FROM vacancies "
@@ -95,12 +92,11 @@ class DBManager:
          - зарплата валюта - ссылка на вакансию
         """
 
-        avg_salary = float(self.get_avg_salary(currency, db_name).split()[0])
-
-        conn = self.__connect_to_db(db_name)
-
         result = []
         try:
+            avg_salary = float(self.get_avg_salary(currency, db_name).split()[0])
+
+            conn = self.__connect_to_db(db_name)
             with conn:
                 with conn.cursor() as cur:
                     query = (f"SELECT employers.name, vacancies.name, vacancies.salary_from, "
@@ -124,11 +120,10 @@ class DBManager:
          - зарплата валюта - ссылка на вакансию
         """
 
-        conn = self.__connect_to_db(db_name)
-
         result = []
 
         try:
+            conn = self.__connect_to_db(db_name)
             with conn:
                 with conn.cursor() as cur:
                     query = (f"SELECT employers.name, vacancies.name, vacancies.salary_from, "
