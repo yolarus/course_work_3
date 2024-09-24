@@ -325,6 +325,10 @@ def previously_on_postgre_manager(postgre_saver_create_db: Any,
                                   postgre_saver_fill_table: Any,
                                   postgre_saver_add_pk: Any,
                                   postgre_saver_add_fk: Any) -> None:
+    """
+    Фикстура - Создание и заполнение БД
+    :return: None
+    """
     pass
 
 

@@ -9,6 +9,25 @@ class DBManager:
     Класс для работы с БД
     """
 
+    def __execute_query(self, query: str, db_name: str | None = None) -> list:
+        """
+        Выполнение запроса к БД
+        :param query: Запрос
+        :param db_name: Имя БД
+        :return: Результат запроса
+        """
+
+        result = []
+        try:
+            conn = self.__connect_to_db(db_name)
+            with conn:
+                with conn.cursor() as cur:
+                    cur.execute(query)
+                    result = cur.fetchall()
+        except (Exception, Error) as error:
+            print("Ошибка при работе с PostgreSQL:", error)
+        return result
+
     @staticmethod
     def __connect_to_db(db_name: str | None = None) -> connection:
         """
@@ -25,16 +44,8 @@ class DBManager:
         :return: Список кортежей: компания - количество вакансий
         """
 
-        result = []
-        try:
-            conn = self.__connect_to_db(db_name)
-            with conn:
-                with conn.cursor() as cur:
-                    cur.execute("SELECT name, open_vacancies FROM employers")
-                    result = cur.fetchall()
-        except (Exception, Error) as error:
-            print("Ошибка при работе с PostgreSQL:", error)
-
+        query = "SELECT name, open_vacancies FROM employers;"
+        result = self.__execute_query(query, db_name)
         return result
 
     def get_all_vacancies(self, db_name: str = "alyautdinov_rt_cw_3") -> list:
@@ -45,19 +56,10 @@ class DBManager:
          - зарплата валюта - ссылка на вакансию
         """
 
-        result = []
-        try:
-            conn = self.__connect_to_db(db_name)
-            with conn:
-                with conn.cursor() as cur:
-                    query = ("SELECT employers.name, vacancies.name, vacancies.salary_from, "
-                             "vacancies.salary_to, vacancies.salary_currency, vacancies.url FROM employers "
-                             "JOIN vacancies USING (employer_id);")
-                    cur.execute(query)
-                    result = cur.fetchall()
-        except (Exception, Error) as error:
-            print("Ошибка при работе с PostgreSQL:", error)
-
+        query = "SELECT employers.name, vacancies.name, vacancies.salary_from, "\
+                "vacancies.salary_to, vacancies.salary_currency, vacancies.url FROM employers "\
+                "JOIN vacancies USING (employer_id);"
+        result = self.__execute_query(query, db_name)
         return result
 
     def get_avg_salary(self, currency: str = "RUR", db_name: str = "alyautdinov_rt_cw_3") -> str:
@@ -67,19 +69,12 @@ class DBManager:
         :param db_name: Имя базы данных
         :return: Средняя зарплата по вакансиям
         """
-
         result = ""
-        try:
-            conn = self.__connect_to_db(db_name)
-            with conn:
-                with conn.cursor() as cur:
-                    query = (f"SELECT AVG(salary_from), AVG(salary_to) FROM vacancies "
-                             f"WHERE salary_currency = '{currency}';")
-                    cur.execute(query)
-                    res = cur.fetchall()
-                    result = f"{round(sum(res[0]) / len(res[0]), 2)} {currency}"
-        except (Exception, Error) as error:
-            print("Ошибка при работе с PostgreSQL:", error)
+        query = f"SELECT AVG(salary_from), AVG(salary_to) FROM vacancies "\
+                f"WHERE salary_currency = '{currency}';"
+        res = self.__execute_query(query, db_name)
+        if res:
+            result = f"{round(sum(res[0]) / len(res[0]), 2)} {currency}"
 
         return result
 
@@ -91,21 +86,16 @@ class DBManager:
         :return: Список кортежей: название компании - название вакансии - зарплата от - зарплата до
          - зарплата валюта - ссылка на вакансию
         """
-
         result = []
         try:
             avg_salary = float(self.get_avg_salary(currency, db_name).split()[0])
 
-            conn = self.__connect_to_db(db_name)
-            with conn:
-                with conn.cursor() as cur:
-                    query = (f"SELECT employers.name, vacancies.name, vacancies.salary_from, "
-                             f"vacancies.salary_to, vacancies.salary_currency, vacancies.url FROM employers "
-                             f"JOIN vacancies USING (employer_id)"
-                             f"WHERE vacancies.salary_from > {avg_salary} "
-                             f"AND vacancies.salary_currency = '{currency}';")
-                    cur.execute(query)
-                    result = cur.fetchall()
+            query = f"SELECT employers.name, vacancies.name, vacancies.salary_from, "\
+                    f"vacancies.salary_to, vacancies.salary_currency, vacancies.url FROM employers "\
+                    f"JOIN vacancies USING (employer_id)"\
+                    f"WHERE vacancies.salary_from > {avg_salary} "\
+                    f"AND vacancies.salary_currency = '{currency}';"
+            result = self.__execute_query(query, db_name)
         except (Exception, Error) as error:
             print("Ошибка при работе с PostgreSQL:", error)
 
@@ -120,19 +110,10 @@ class DBManager:
          - зарплата валюта - ссылка на вакансию
         """
 
-        result = []
-
-        try:
-            conn = self.__connect_to_db(db_name)
-            with conn:
-                with conn.cursor() as cur:
-                    query = (f"SELECT employers.name, vacancies.name, vacancies.salary_from, "
-                             f"vacancies.salary_to, vacancies.salary_currency, vacancies.url FROM employers "
-                             f"JOIN vacancies USING (employer_id)"
-                             f"WHERE vacancies.name LIKE '%{keyword}%' OR vacancies.name LIKE '%{keyword.lower()}%';")
-                    cur.execute(query)
-                    result = cur.fetchall()
-        except (Exception, Error) as error:
-            print("Ошибка при работе с PostgreSQL:", error)
+        query = f"SELECT employers.name, vacancies.name, vacancies.salary_from, "\
+                f"vacancies.salary_to, vacancies.salary_currency, vacancies.url FROM employers "\
+                f"JOIN vacancies USING (employer_id) "\
+                f"WHERE vacancies.name LIKE '%{keyword}%' OR vacancies.name LIKE '%{keyword.lower()}%';"
+        result = self.__execute_query(query, db_name)
 
         return result
