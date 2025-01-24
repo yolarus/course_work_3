@@ -1,9 +1,9 @@
 [
     {
         "employer_id": 1,
-        "name": "Таксопарк Яндекс (Эшалиева Назира Патрисовна)",
-        "url": "https://api.hh.ru/employers/10753171",
-        "url_to_vacancies_list": "https://api.hh.ru/vacancies?employer_id=10753171",
+        "name": "Партнер сервиса Яндекс доставка",
+        "url": "https://api.hh.ru/employers/11637308",
+        "url_to_vacancies_list": "https://api.hh.ru/vacancies?employer_id=11637308",
         "open_vacancies": 1
     },
     {

@@ -42,7 +42,7 @@ def user_interaction() -> None:
     # Сохранение найденных вакансий в json файл
     use_to_list_json_saver(vacancies_list, "vacancies")
 
-    # Создание БД
+    # Создание в БД
     save_to_postgres = SaveToDBPostgreSQL()
     save_to_postgres.create_db("alyautdinov_rt_cw_3")
     print("Создана БД alyautdinov_rt_cw_3")
