@@ -1,0 +1,30 @@
+[
+    {
+        "vacancy_id": 1,
+        "employer_id": null,
+        "name": "Test",
+        "url": "don't have",
+        "salary": {
+            "from": 50000,
+            "to": 100000,
+            "currency": "RUR"
+        },
+        "short_description": "description",
+        "requirements": "requirements",
+        "area": "Москва"
+    },
+    {
+        "vacancy_id": 2,
+        "employer_id": null,
+        "name": "Test 2",
+        "url": "don't have",
+        "salary": {
+            "from": 150000,
+            "to": 200000,
+            "currency": "RUR"
+        },
+        "short_description": "description",
+        "requirements": "requirements",
+        "area": "Можно не рассматривать данную вакансию"
+    }
+]
